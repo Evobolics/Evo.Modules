@@ -37,7 +37,7 @@ Notice there are two general parts.  The first is the ```Main``` method that is 
 
 Lets examine the CreateHostBuilder method, and then circle back to the Main method where we can dicuss how the application is started.
 
-## Creating the HOstBuilder
+## Creating the HostBuilder
 
 The first goal is to create a host builder and configure the application.  To create a host builder, the standard way is to call Host.CreateDefaultBuilder().  This method is contained in the static [Host.cs](https://github.com/dotnet/extensions/blob/494e2c53cd0ea075ba3783748d62c66bc4a353e2/src/Hosting/Hosting/src/Host.cs) class.  
 
@@ -134,19 +134,18 @@ namespace Microsoft.Extensions.Hosting
 
 A lot of work is done in this class.  Instead of the HostBuilder containing all of these default settings, the extension method provides them.  
 
-Stepping through the code, the first thing the CreateDefaultBuilder method does is create an instance of the HostBuilder.  When the ```HostBuilder.Build()``` method is called, the builder will proceed through five build stages:
-- a
-- b
-- c
-When the 
+Stepping through the code, the first thing the CreateDefaultBuilder method does is create an instance of the [HostBuilder](https://github.com/dotnet/extensions/blob/494e2c53cd0ea075ba3783748d62c66bc4a353e2/src/Hosting/Hosting/src/HostBuilder.cs) class.  When the ```HostBuilder.Build()``` method is called, the builder will proceed through five build stages:
 
-This method 
+- BuildHostConfiguration();
+- CreateHostingEnvironment();
+- CreateHostBuilderContext();
+- BuildAppConfiguration();
+- CreateServiceProvider();
 
-# Microsoft Hosting Implementation
+Each stage provides some work to build the application and expose extension points that allow the developer, and in the case above, the ```CreateDefaultBuilder``` method, chances to configure the host. Later on in this article a more in depth review of what is happening within the HostBuilder will be provided, but for now we can summarize each step as follows:
 
-## Build
+The BuildHostConfiguration method creates the hosts configuration.  There are in fact two configurations that are built out during the course of building out a host.  The first is host configuration.  The second is the application configuration which is generally what developers access when requesting a copy of the configuration.
 
-### 
 
 # References
 
