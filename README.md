@@ -41,7 +41,7 @@ Lets examine the CreateHostBuilder method, and then circle back to the Main meth
 
 The first goal is to create a host builder and configure the application.  To create a host builder, the standard way is to call Host.CreateDefaultBuilder().  This method is contained in the static [Host.cs](https://github.com/dotnet/extensions/blob/494e2c53cd0ea075ba3783748d62c66bc4a353e2/src/Hosting/Hosting/src/Host.cs) class.  
 
-```
+```csharp
 using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -144,7 +144,9 @@ Stepping through the code, the first thing the CreateDefaultBuilder method does 
 
 Each stage provides some work to build the application and expose extension points that allow the developer, and in the case above, the ```CreateDefaultBuilder``` method, chances to configure the host. Later on in this article a more in depth review of what is happening within the HostBuilder will be provided, but for now we can summarize each step as follows:
 
-The BuildHostConfiguration method creates the hosts configuration.  There are in fact two configurations that are built out during the course of building out a host.  The first is host configuration.  The second is the application configuration which is generally what developers access when requesting a copy of the configuration.
+The **BuildHostConfiguration** method creates the hosts configuration.  There are in fact two configurations that are built out during the course of building out a host, each created using a [ConfigurationBuilder](https://github.com/dotnet/runtime/blob/master/src/libraries/Microsoft.Extensions.Configuration/src/ConfigurationBuilder.cs).  The first is host configuration contains any settings needed to determine how the host should be built.  The second is the application configuration which is generally what developers access when requesting a copy of the configuration.
+
+<div style="margin-left:30px;">*Note a lot of the extension libraries have been moved from the [extensions repo](https://github.com/dotnet/extensions) to the [dotnet runtime repo](https://github.com/dotnet/runtime)* Old .NET Core 3.1 branches still remain though in extensions for historical reasons.</div>
 
 
 # References
