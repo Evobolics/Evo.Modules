@@ -1,7 +1,7 @@
 # Evo.Modules
 Allows a developer to create a dependency chain of modules and loads them in the proper order into memory.
 
-# Program Startup
+# .NET 5 General Program Startup
 
 There is a lot going on beyond what is visible to the developer when an application is created.  Developers live in a world today where they need to reference a relatively large number of packges when they create solutions.  Let's take a look what is going on under the hood when a worker service is being created.  The following code is what the Program.cs class contents look like when the application is first created in visual studio.
 
@@ -35,8 +35,120 @@ namespace WorkerService1
 
 Notice there are two general parts.  The first is the ```Main``` method that is used to build and run the application.  The second part, is the ```CreateHostBuilder```.  This part of the application creates the builder class that can be used to configure the application prior to being built and ran.  This two part process seperaets the process of build and running the application from the process of configuring the application.  This is important, as it allows for applications to connected and participate with design time tools.
 
+Lets examine the CreateHostBuilder method, and then circle back to the Main method where we can dicuss how the application is started.
+
+## Creating the HOstBuilder
+
+The first goal is to create a host builder and configure the application.  To create a host builder, the standard way is to call Host.CreateDefaultBuilder().  This method is contained in the static [Host.cs](https://github.com/dotnet/extensions/blob/494e2c53cd0ea075ba3783748d62c66bc4a353e2/src/Hosting/Hosting/src/Host.cs) class.  
+
+```
+using System.IO;
+using System.Reflection;
+using System.Runtime.InteropServices;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.EventLog;
+
+namespace Microsoft.Extensions.Hosting
+{
+    
+    public static class Host
+    {
+        
+        public static IHostBuilder CreateDefaultBuilder() =>
+            CreateDefaultBuilder(args: null);
+
+        
+        public static IHostBuilder CreateDefaultBuilder(string[] args)
+        {
+            var builder = new HostBuilder();
+
+            builder.UseContentRoot(Directory.GetCurrentDirectory());
+            builder.ConfigureHostConfiguration(config =>
+            {
+                config.AddEnvironmentVariables(prefix: "DOTNET_");
+                if (args != null)
+                {
+                    config.AddCommandLine(args);
+                }
+            });
+
+            builder.ConfigureAppConfiguration((hostingContext, config) =>
+            {
+                var env = hostingContext.HostingEnvironment;
+
+                config.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                      .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true);
+
+                if (env.IsDevelopment() && !string.IsNullOrEmpty(env.ApplicationName))
+                {
+                    var appAssembly = Assembly.Load(new AssemblyName(env.ApplicationName));
+                    if (appAssembly != null)
+                    {
+                        config.AddUserSecrets(appAssembly, optional: true);
+                    }
+                }
+
+                config.AddEnvironmentVariables();
+
+                if (args != null)
+                {
+                    config.AddCommandLine(args);
+                }
+            })
+            .ConfigureLogging((hostingContext, logging) =>
+            {
+                var isWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
+
+                // IMPORTANT: This needs to be added *before* configuration is loaded, this lets
+                // the defaults be overridden by the configuration.
+                if (isWindows)
+                {
+                    // Default the EventLogLoggerProvider to warning or above
+                    logging.AddFilter<EventLogLoggerProvider>(level => level >= LogLevel.Warning);
+                }
+
+                logging.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
+                logging.AddConsole();
+                logging.AddDebug();
+                logging.AddEventSourceLogger();
+
+                if (isWindows)
+                {
+                    // Add the EventLogLoggerProvider on windows machines
+                    logging.AddEventLog();
+                }
+            })
+            .UseDefaultServiceProvider((context, options) =>
+            {
+                var isDevelopment = context.HostingEnvironment.IsDevelopment();
+                options.ValidateScopes = isDevelopment;
+                options.ValidateOnBuild = isDevelopment;
+            });
+
+            return builder;
+        }
+    }
+}
+```
+
+A lot of work is done in this class.  Instead of the HostBuilder containing all of these default settings, the extension method provides them.  
+
+Stepping through the code, the first thing the CreateDefaultBuilder method does is create an instance of the HostBuilder.  When the ```HostBuilder.Build()``` method is called, the builder will proceed through five build stages:
+- a
+- b
+- c
+When the 
+
+This method 
+
 # Microsoft Hosting Implementation
 
 ## Build
 
 ### 
+
+# References
+
+* [Introducing IHostLifetime and untangling the Generic Host startup interactions](https://andrewlock.net/controlling-ihostedservice-execution-order-in-aspnetcore-3/)
+* [Background tasks with hosted services in ASP.NET Core](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/host/hosted-services?view=aspnetcore-5.0&tabs=visual-studio#ihostedservice-interface)
