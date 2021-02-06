@@ -21,6 +21,8 @@ Examples of resouces that hosts contain and manage include:
 
 In addition to these basic services, .NET Core 3 hosts and later support the abilty to host services that that implement the [IHostedService](https://docs.microsoft.com/en-us/dotnet/api/microsoft.extensions.hosting.ihostedservice?view=dotnet-plat-ext-5.0) interface.
 
+To control the startup and shutdown of objects requires that the host mange the lifetime of its resources.
+
 ## 2.0 Web and Host
 
 
