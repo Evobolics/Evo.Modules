@@ -13,7 +13,7 @@ Before extending the hosting concept further, it is important to understand what
 
 A host is an object that contains a collection of inter-dependent application resources with the goal of centrally managing its resources to provide a graceful application startup and shutdown process.  
 
-Examples of resouces that hosts contain and manage incldue:
+Examples of resouces that hosts contain and manage include:
 
 - Configuration
 - Dependency injection (DI)
