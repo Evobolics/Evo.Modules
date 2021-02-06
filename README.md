@@ -230,4 +230,6 @@ The **CreateServiceProvider**
 # References
 
 * [Introducing IHostLifetime and untangling the Generic Host startup interactions](https://andrewlock.net/controlling-ihostedservice-execution-order-in-aspnetcore-3/)
+* [.NET Generic Host in ASP.NET Core](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/host/generic-host?view=aspnetcore-5.0)
 * [Background tasks with hosted services in ASP.NET Core](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/host/hosted-services?view=aspnetcore-5.0&tabs=visual-studio#ihostedservice-interface)
+
