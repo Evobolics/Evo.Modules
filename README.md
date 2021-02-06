@@ -1,13 +1,25 @@
 # Evo.Modules
 Allows a developer to create a dependency chain of modules and loads them in the proper order into memory.
 
+# Introduction
+
+This article desicusses the concepts related around building a host and how to extend the hosting model to support dynamically discoverable inter-dependent modules.  
+
+Before extending the hosting concept further, it is important to understand what is currently present to prevent re-inventing the wheel and how to re-use what we have versus creating a brand new hosting model.
+
 # Background
+
+## What is a Host?
+
+A host is an object that contains a collection of inter-dependent application resources with the goal of centrally managing those resources for gracefully starting up and shutting down applications.
 
 ## 2.0 Web and Host
 
 
 
-## 3.0 Combines Web and Host 
+## 3.0 ASP.NET Core rebuilt to work with Generic Host, instead of a Separate Web Host.
+
+
 
 ## Deprecation of the IHostingEnvronment &amp; IApplicationLifetime (Feb 14, 2019)
 
