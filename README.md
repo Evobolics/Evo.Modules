@@ -3,7 +3,13 @@ Allows a developer to create a dependency chain of modules and loads them in the
 
 # Background
 
-## Deprecation of the 
+## 2.0 Web and Host
+
+
+
+## 3.0 Combines Web and Host 
+
+## Deprecation of the IHostingEnvronment &amp; IApplicationLifetime (Feb 14, 2019)
 
 For more information please see issue [Deprecate and replace IHostingEnvronment &amp; IApplicationLifetime
 ](https://github.com/dotnet/extensions/issues/966).
