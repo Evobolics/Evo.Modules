@@ -11,7 +11,15 @@ Before extending the hosting concept further, it is important to understand what
 
 ## What is a Host?
 
-A host is an object that contains a collection of inter-dependent application resources with the goal of centrally managing its resources to provide a graceful application startup and shutdown process.
+A host is an object that contains a collection of inter-dependent application resources with the goal of centrally managing its resources to provide a graceful application startup and shutdown process.  
+
+Examples of resouces that hosts contain and manage incldue:
+
+Configuration
+Dependency injection (DI)
+Logging
+
+In addition to these basic services, .NET Core 3 hosts and later support the abilty to host services that that implement the [IHostedService](https://docs.microsoft.com/en-us/dotnet/api/microsoft.extensions.hosting.ihostedservice?view=dotnet-plat-ext-5.0) interface.
 
 ## 2.0 Web and Host
 
