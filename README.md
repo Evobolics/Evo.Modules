@@ -14,6 +14,42 @@ Allows a developer to create a dependency chain of modules and loads them in the
 For more information please see issue [Deprecate and replace IHostingEnvronment &amp; IApplicationLifetime
 ](https://github.com/dotnet/extensions/issues/966).
 
+- Microsoft.AspNetCore.Hosting.IHostingEnvironment
+- Microsoft.AspNetCore.Hosting.IApplicationLifetime
+- Microsoft.Extensions.Hosting.IHostingEnvironment
+- Microsoft.Extensions.Hosting.IApplicationLifetime
+
+```csharp
+
+namespace Microsoft.Extensions.Hosting
+{
+    public interface IHostEnvironment
+    {
+        string EnvironmentName { get; set; }
+        string ApplicationName { get; set; }
+        string ContentRootPath { get; set; }
+        IFileProvider ContentRootFileProvider { get; set; }
+    }
+
+    public interface IHostApplicationLifetime
+    {
+        CancellationToken ApplicationStarted { get; }
+        CancellationToken ApplicationStopping { get; }
+        CancellationToken ApplicationStopped { get; }
+
+        void StopApplication();
+    }
+
+    public static class HostEnvironmentExtensions
+    {
+        public static bool IsDevelopment(this IHostEnvironment environment);
+        public static bool IsStaging(this IHostEnvironment environment);
+        public static bool IsProduction(this IHostEnvironment environment);
+    }
+}
+
+```
+
 # .NET 5 General Program Startup
 
 There is a lot going on beyond what is visible to the developer when an application is created.  Developers live in a world today where they need to reference a relatively large number of packges when they create solutions.  Let's take a look what is going on under the hood when a worker service is being created.  The following code is what the Program.cs class contents look like when the application is first created in visual studio.
