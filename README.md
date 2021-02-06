@@ -1,6 +1,13 @@
 # Evo.Modules
 Allows a developer to create a dependency chain of modules and loads them in the proper order into memory.
 
+# Background
+
+## Deprecation of the 
+
+For more information please see issue [Deprecate and replace IHostingEnvronment &amp; IApplicationLifetime
+](https://github.com/dotnet/extensions/issues/966).
+
 # .NET 5 General Program Startup
 
 There is a lot going on beyond what is visible to the developer when an application is created.  Developers live in a world today where they need to reference a relatively large number of packges when they create solutions.  Let's take a look what is going on under the hood when a worker service is being created.  The following code is what the Program.cs class contents look like when the application is first created in visual studio.
@@ -146,8 +153,15 @@ Each stage provides some work to build the application and expose extension poin
 
 The **BuildHostConfiguration** method creates the hosts configuration.  There are in fact two configurations that are built out during the course of building out a host, each created using a [ConfigurationBuilder](https://github.com/dotnet/runtime/blob/master/src/libraries/Microsoft.Extensions.Configuration/src/ConfigurationBuilder.cs).  The first is host configuration contains any settings needed to determine how the host should be built.  The second is the application configuration which is generally what developers access when requesting a copy of the configuration.
 
->*Note a lot of the extension libraries have been moved from the [extensions repo](https://github.com/dotnet/extensions) to the [dotnet runtime repo](https://github.com/dotnet/runtime)* Old .NET Core 3.1 branches still remain though in extensions for historical reasons.</div>
+>*Note a lot of the extension libraries have been moved from the [extensions repo](https://github.com/dotnet/extensions) to the [dotnet runtime repo](https://github.com/dotnet/runtime) Old .NET Core 3.1 branches still remain in the extensions repo for historical reasons.  
 
+The **CreateHostingEnvironment** method 
+
+The **CreateHostBuilderContext**
+
+The **BuildAppConfiguration**
+
+The **CreateServiceProvider**
 
 # References
 
